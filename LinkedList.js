@@ -2,19 +2,27 @@ import Node from "./Node.js";
 
 class LinkedList {
   constructor() {
-    this.list = [];
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
   }
 
   //append(value) adds a new node containing value to the end of the list
   append(value) {
     const newNode = new Node(value);
-    this.list.push(newNode);
+    if (this.tail) {
+      const previousNode = this.tail;
+      previousNode.nextNode = newNode;
+      this.tail = newNode;
+    } else {
+      this.head = newNode;
+      this.tail = newNode;
+    }
   }
 
   //prepend(value) adds a new node containing value to the start of the list
   prepend(value) {
     const newNode = new Node(value);
-    this.list.unshift(newNode);
   }
 
   //size returns the total number of nodes in the list
@@ -28,9 +36,16 @@ class LinkedList {
   //toString represents your LinkedList objects as strings, so you can print them out and preview them in the console.    The format should be: ( value ) -> ( value ) -> ( value ) -> null
   toString() {
     let log = "";
-    this.list.forEach((node) => {
+    let node = this.head;
+    while (node != null) {
       log += `(${node.value}) -> `;
-    });
+      if (node.nextNode) {
+        node = node.nextNode;
+      } else {
+        node = null;
+      }
+    }
+
     log += "(null)";
     console.log(log);
   }
